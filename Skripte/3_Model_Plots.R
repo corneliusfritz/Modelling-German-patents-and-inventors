@@ -1,39 +1,16 @@
-library(Matrix)
-library(tidyverse)
-library(lubridate)
-library(tibbletime)
-library(mgcv)
-library(network)
-library(ergm)
-library(network)
-library(cowplot)
-library(scales)
-library(data.table)
-library(parallel)
-library(parallelMap)
-library(sf)
 library(ggpubr)
-library(giscoR)
-library(readr)
+library(tidyverse)
+library(data.table)
 library(sna)
-library(sp)
+library(ergm)
 library(gridExtra)
 library(grid)
-library(rworldmap)
-library(ergm.userterms)
-library(ergm.patent)
-library(geosphere)
-library(Rfast)
-library(statnet)
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source("Functions/functions.R")
 Rcpp::sourceCpp('Functions/helper_fun.cpp')
-library(haven)
-library(ggmcmc)
 
 
 # Minor Descriptive Plots (Figure 1 in the SM)----
-
 dir_path = paste0("../Data/preprocessing_Final_2_5_12/networks/")
 data_files = paste0(dir_path,list.files(dir_path))
 network_files = data_files
@@ -90,6 +67,8 @@ ggplot(plot_data[variable %in% c("patents_per_step","inventors_per_step","densit
   theme_pubr(base_size = 20) +
   scale_linetype_discrete("",label = c("Density", "Active inventors", "Patents")) 
 
+
+
 ggsave(filename = "../Plots/descriptive.pdf",width = 9,height = 6)
 
 a = ggplot(plot_data[variable %in% c("patents_per_step","inventors_per_step")]) +
@@ -108,6 +87,7 @@ b = ggplot(plot_data[variable %in% c("density_per_step")]) +
   xlab("Years") +
   theme_pubr(base_size = 20)  +
   scale_linetype_discrete("",label = c(" ")) 
+
 ggsave(a,filename = "../Plots/descriptive_tmpa.pdf",width = 5,height = 5)
 ggsave(b,filename = "../Plots/descriptive_tmpb.pdf",width = 5,height = 5)
 
@@ -147,6 +127,7 @@ dir_path = paste0("../Data/preprocessing_Final_2_5_12/covariates/")
 models = paste0(dir_path,list.files(dir_path))
 dir_path = paste0("../Data/preprocessing_Final_2_5_12/sampled_networks_for_gof/")
 sampled_networks = paste0(dir_path,list.files(dir_path))
+
 # Plot the MCMC diagnostics ----
 for(i in 1:length(sampled_networks)){
   year = step_data$year[match(steps[i],step_data$steps)]
@@ -425,9 +406,10 @@ for(i in 1:length(comb)){
       scale_color_manual("",labels = c("Inventor", "Patent"),values = c("black", "grey55"))+
       guides(color = "none")
   }
-  ggsave(paste0("../Plots/smooth_effect/",names_comb[i],"_smooth.pdf"),
-         plot = plot_list[[i]],width = 7,height = 7)
+  # ggsave(paste0("../Plots/smooth_effect/",names_comb[i],"_smooth.pdf"),
+  #        plot = plot_list[[i]],width = 7,height = 7)
 }
+
 gc(reset = T,full = T)
 
 # Function to make two coordinate systems equal to one another 

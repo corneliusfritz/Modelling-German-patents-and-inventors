@@ -74,14 +74,8 @@ ggplot() +
   geom_vline(xintercept = first_patent_per_year$first_patent, color = "grey") +
   geom_point(data=df, mapping=aes(y=person_id_num, x = docdb_family_id_num),
              color = "black", cex = 0.0001, alpha = 0.1) +
-  # geom_text(y = rep(60000,times = length(first_patent_per_year$year)),
-  #           x = first_patent_per_year$first_patent,
-  #           label = as.character(first_patent_per_year$year)) +
   geom_text(data = first_patent_per_year, aes(x =first_patent_average,y =y_val, label = year ), size = 6.5)  +
-  # geom_linerange(data=df, mapping=aes(x=person_id_num, ymin = year, ymax = year+1),
-  #                color = "red", cex = 0.1) +
   ylab("Inventor ID") +
   xlab("Patent ID") +
   theme_pubr(base_size = 20)
-
 dev.off()
