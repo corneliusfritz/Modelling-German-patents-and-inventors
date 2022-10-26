@@ -23,7 +23,7 @@ source("Functions/functions.R")
 # This is a script of the descriptives 
 df = fread("../Data/df.csv")
 # For the analysis we only analyse patents filed after 2000 in 'Electrical Engineering'  (Covariates also include information from 1995)
-df = df[mainarea34 == "Electrical Engineering" & date > ymd("1995-01-01")]
+df = df[mainarea34 == "Electrical Engineering" & date > ymd("2000-01-01")]
 
 # we could also only look at patents with a specific number of inventors 
 tmp_number_pat = table(df$docdb_family_id)
@@ -73,7 +73,7 @@ actor_data$ind = !actor_data$cens
 actor_data$duration_cens[actor_data$cens] = 12*5
 # For each actor get the time between patents 
 tmp_function = function(x){
-  tmp = x$date_list[[1]]
+  tmp = x$date_list
   from = tmp[-length(tmp)]
   to = tmp[-1]
   return(data.table(from = from, to = to, status = 1, time_beg = x$start))
